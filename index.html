@@ -1,4 +1,117 @@
+<!DOCTYPE html>
 <html>
-<p> testeo numero 1
-<p> dos
+<head>
+    <title>Pizarra</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #canvas {
+            display: block;
+            background-color: #fff;
+            border: 1px solid #000;
+        }
+        
+        .toolbar {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 9999;
+        }
+        
+        .toolbar button {
+            margin-right: 5px;
+        }
+
+        .toolbar input[type="range"] {
+            width: 150px;
+            margin-top: 5px;
+        }
+
+        .toolbar input[type="text"] {
+            width: 100px;
+            margin-top: 5px;
+        }
+
+        .toolbar input[type="color"] {
+            width: 25px;
+            height: 25px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <div class="toolbar">
+        <button id="pencilBtn">Lápiz</button>
+        <button id="eraserBtn">Goma</button>
+        <button id="penBtn">Pluma</button>
+        <input type="color" id="colorInput">
+        <input type="range" id="brushSizeSlider" min="1" max="20" value="10" step="1">
+        <button id="saveBtn">Guardar</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.5.0/fabric.min.js"></script>
+    <script>
+        var canvas = new fabric.Canvas("canvas", {
+            backgroundColor: "#fff",
+            width: window.innerWidth,
+            height: window.innerHeight
+        });
+
+        canvas.isDrawingMode = true;
+        canvas.freeDrawingBrush.width = 10;
+        canvas.freeDrawingBrush.color = "#000";
+
+        var pencilBtn = document.getElementById("pencilBtn");
+        var eraserBtn = document.getElementById("eraserBtn");
+        var penBtn = document.getElementById("penBtn");
+        var colorInput = document.getElementById("colorInput");
+        var brushSizeSlider = document.getElementById("brushSizeSlider");
+        var saveBtn = document.getElementById("saveBtn");
+
+        pencilBtn.addEventListener("click", function() {
+            canvas.isDrawingMode = true;
+            canvas.freeDrawingBrush.color = colorInput.value;
+            canvas.freeDrawingBrush.width = brushSizeSlider.value;
+            canvas.freeDrawingBrush.strokeDashArray = [];
+            canvas.freeDrawingBrush.strokeLineJoin = 'round';
+        });
+
+        eraserBtn.addEventListener("click", function() {
+            canvas.isDrawingMode = true;
+            canvas.freeDrawingBrush.color = "#fff";
+            canvas.freeDrawingBrush.width = brushSizeSlider.value;
+            canvas.freeDrawingBrush.strokeDashArray = [];
+            canvas.freeDrawingBrush.strokeLineJoin = 'round';
+        });
+
+        penBtn.addEventListener("click", function() {
+            canvas.isDrawingMode = true;
+            canvas.freeDrawingBrush.color = colorInput.value;
+            canvas.freeDrawingBrush.width = brushSizeSlider.value;
+            canvas.freeDrawingBrush.strokeDashArray = [];
+            canvas.freeDrawingBrush.strokeLineJoin = 'round';
+        });
+
+        colorInput.addEventListener("input", function() {
+            canvas.freeDrawingBrush.color = this.value;
+        });
+
+        brushSizeSlider.addEventListener("input", function() {
+            canvas.freeDrawingBrush.width = this.value;
+        });
+
+        saveBtn.addEventListener("click", function() {
+            var dataURL = canvas.toDataURL({ format: 'png' });
+            var link = document.createElement("a");
+            link.href = dataURL;
+            link.download = "pizarra.png";
+            link.click();
+        });
+    </script>
+</body>
 </html>
