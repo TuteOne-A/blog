@@ -1,4 +1,2 @@
-# blog
-test one
-
-q pasa
+# paint
+hecho con CHAT GPT 3.5
